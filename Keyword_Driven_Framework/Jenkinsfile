@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven 3.8.6'
+        jdk 'JDK 11'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/DebajyotiSDET/SeleniumFramework.git'
+            }
+        }
+
+        stage('Build & Test') {
+            steps {
+                sh 'mvn clean test'
+            }
+        }
+
+        stage('Publish Report') {
+            steps {
+                publishHTML([ 
+                    reportDir: 'test-output', 
+                    reportFiles: 'index.html', 
+                    reportName: 'TestNG Report'
+                ])
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'test-output/**/*.*', allowEmptyArchive: true
+        }
+    }
+}
