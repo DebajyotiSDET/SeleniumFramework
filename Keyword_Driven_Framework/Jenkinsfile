@@ -15,7 +15,7 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                bat 'mvn clean test'   // ✅ Use 'bat' on Windows instead of 'sh'
+                bat 'cd Keyword_Driven_Framework && mvn clean test'   // ✅ Use 'bat' on Windows instead of 'sh'
             }
         }
 
